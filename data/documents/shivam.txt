@@ -1,0 +1,71 @@
+Gurugram,HR 
+Shivam Kumar
+shivamkumar
+shivam k1@amsc.iitr.ac.in
+Education
+91-7880600562 
+M.Tech. in Applied Mathematics and Scientific Computing, IIT Roorkee
+CGPA: 8.50/10.0
+M.Sc. in Mathematics, IIT Madras
+CGPA: 7.02/10.0
+B.Sc. in Mathematics(Honors), Banaras Hindu University
+CGPA: 7.82/10.0
+Class XII, Jawahar Navodaya Vidyalaya
+Percentage: 88.40/100.0
+Class X, Jawahar Navodaya Vidyalaya
+CGPA: 9.40/10.0
+Experience
+2025
+2023
+2021
+2017
+2015
+AI Engineer , Nirnaya System Solutions Pvt Ltd. New-Delhi
+June 2025- Present
+◦ Built an advanced RAG-based chatbot using query expansion, decomposition, contextual rewriting, HyDE,
+and MMR to significantly improve retrieval relevance and diversity.
+◦ Designed a multi-agent LLM architecture for planning, retrieval, evidence validation, and grounded answer
+synthesis with consistency and confidence checks.
+◦ Achieved 40% better retrieval precision and a major reduction in hallucinations, enabling reliable multi-step
+reasoning in complex domain queries.
+◦ Developed a system for automated terrain analysis using SRTM DEM, DSM (RGB), Sentinel-2 imagery,
+and vector GIS data (roads, rivers, buildings).
+◦ Integrated AI/ML models for terrain feature extraction, observation point selection, and mobility corridor
+analysis to support tactical decision-making.
+◦ Automated 3D visualization using PyVista and CesiumJS for realistic, interactive terrain maps.
+Data Science Intern ,Tooliqa Gurugram
+Feb 2025- May 2025
+◦ Developed a document extractor for the market research product Biobrain using large language models
+(LLMs) and prompt engineering to extract survey questions and logic.
+◦ Parsed HTML documents with BeautifulSoup to maintain exact question formatting and structure.
+◦ Implemented data cleaning pipelines outlier detection, rule-based validation, and quality assurance filters.
+◦ Designed and deployed RESTful APIs using FastAPI to integrate data from multiple sources, perform data
+analysis, and deliver cleaned datasets.
+AI/ML Intern , Stormlight Synergies Pvt. Ltd
+May 2024- June 2024
+◦ Enhanced Hindi speech recognition by reducing WER by 10% using fine-tuning and custom dataset.
+◦ Created a Hindi dataset to fine-tune Whisper V3, improving accuracy across diverse conditions.
+◦ Applied LoRA, PEFT, and GPU acceleration to optimize performance, training time, and resource use.
+Projects
+YouTube Spam Comment Detection
+Sep 2023- Nov 2023
+◦ Enhanced spam detection accuracy by developing a robust framework for YouTube comment detection.
+◦ Developed a solution integrating SVM, XGBoost, RNN, LSTM, and GRU models efficiently.
+◦ Utilized TF-IDF, GloVe, Word2Vec, and FastText embeddings, achieving 0.89 F1 and 0.96 AUC-ROC.
+Key Achievements
+◦ Achieved AIR 79 in CSIR-NET Mathematical Science (2023)
+◦ Secured AIR 123 in GATE Statistics and AIR 404 in GATE Mathematics
+◦ Ranked AIR 201 in IIT-JAM Mathematics (2021)
+2023
+2023
+2021
+Shivam Kumar- Page 1 of 2
+Skills and Certification:
+Programming Languages: Python, SQL, R
+Software Packages: PyTorch, TensorFlow, Keras, Sklearn | Langchain, LlamaIndex, LangGraph, CrewAi,
+AutoGen, FAISS, ChromaDB, AWS,Azure, GCP, MCP, Docker, Airflow, Pinecone | Hugging Face Transformers|
+Power BI, MS Excel | Numpy, Pandas , Matplotlib, Seaborn | Librosa , Gensim, NLTK | Streamlit, FastAPI,Git,
+MLops
+Key Courses: Probability and Statistics, Machine Learning, Deep Learning ,Optimization Technique, Differ
+ential Equations, Applied Stochastics process, Applied Regression Analysis, Data Analysis and Visualization.
+Shivam Kumar- Page 2 of 2

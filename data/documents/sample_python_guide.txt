@@ -1,0 +1,179 @@
+# Sample Document: Python Programming Guide
+
+## What is Python?
+
+Python is a high-level, interpreted programming language known for its simplicity and readability. Created by Guido van Rossum and first released in 1991, Python emphasizes code readability with its notable use of significant whitespace.
+
+## Key Features
+
+### 1. Easy to Learn and Use
+Python's syntax is clean and intuitive, making it an excellent first language for beginners. The language reads almost like English, reducing the learning curve for new programmers.
+
+### 2. Interpreted Language
+Python code is executed line by line, which makes debugging easier. You don't need to compile your code before running it.
+
+### 3. Dynamically Typed
+Variables in Python don't need explicit type declarations. The interpreter infers the type at runtime.
+
+### 4. Multi-Paradigm
+Python supports multiple programming paradigms:
+- Object-Oriented Programming (OOP)
+- Procedural Programming
+- Functional Programming
+
+### 5. Extensive Standard Library
+Python comes with a vast standard library that includes modules for:
+- File I/O
+- System calls
+- Networking
+- Web services
+- And much more
+
+## Basic Syntax
+
+### Variables and Data Types
+```python
+# Numbers
+integer_var = 42
+float_var = 3.14
+
+# Strings
+text = "Hello, Python!"
+
+# Lists
+my_list = [1, 2, 3, 4, 5]
+
+# Dictionaries
+my_dict = {"name": "Alice", "age": 30}
+
+# Booleans
+is_active = True
+```
+
+### Control Flow
+```python
+# If-else statements
+if x > 0:
+    print("Positive")
+elif x < 0:
+    print("Negative")
+else:
+    print("Zero")
+
+# Loops
+for i in range(5):
+    print(i)
+
+while condition:
+    # do something
+    pass
+```
+
+### Functions
+```python
+def greet(name):
+    return f"Hello, {name}!"
+
+result = greet("World")
+```
+
+## Popular Python Libraries
+
+### 1. Data Science
+- **NumPy**: Numerical computing with arrays
+- **Pandas**: Data manipulation and analysis
+- **Matplotlib**: Data visualization
+- **SciPy**: Scientific computing
+
+### 2. Machine Learning
+- **scikit-learn**: Traditional ML algorithms
+- **TensorFlow**: Deep learning framework
+- **PyTorch**: Deep learning and neural networks
+- **Keras**: High-level neural networks API
+
+### 3. Web Development
+- **Django**: Full-featured web framework
+- **Flask**: Lightweight web framework
+- **FastAPI**: Modern, fast web framework
+- **Requests**: HTTP library
+
+### 4. Automation
+- **Selenium**: Web browser automation
+- **Beautiful Soup**: Web scraping
+- **Paramiko**: SSH protocol
+
+## Python Applications
+
+Python is used in various domains:
+
+1. **Web Development**: Building websites and web applications
+2. **Data Analysis**: Processing and analyzing large datasets
+3. **Machine Learning**: Creating intelligent systems
+4. **Automation**: Scripting repetitive tasks
+5. **Scientific Computing**: Research and simulations
+6. **Game Development**: Creating games
+7. **Desktop Applications**: GUI applications
+8. **DevOps**: Infrastructure automation
+
+## Python Best Practices
+
+### 1. Follow PEP 8
+PEP 8 is the style guide for Python code. Key points:
+- Use 4 spaces for indentation
+- Keep lines under 79 characters
+- Use descriptive variable names
+- Add docstrings to functions
+
+### 2. Use Virtual Environments
+Isolate project dependencies using virtual environments:
+```bash
+python -m venv myenv
+source myenv/bin/activate  # On Windows: myenv\Scripts\activate
+```
+
+### 3. Write Tests
+Use pytest or unittest to write tests for your code:
+```python
+def test_addition():
+    assert 1 + 1 == 2
+```
+
+### 4. Handle Exceptions
+Use try-except blocks to handle errors gracefully:
+```python
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+```
+
+## Getting Started
+
+### Installation
+1. Download Python from python.org
+2. Install Python (ensure "Add to PATH" is checked)
+3. Verify installation: `python --version`
+
+### Your First Program
+```python
+print("Hello, World!")
+```
+
+### Learning Resources
+- Official Python Tutorial
+- Real Python
+- Python.org documentation
+- Codecademy Python Course
+- Coursera Python Specializations
+
+## Python Community
+
+Python has a vibrant and welcoming community:
+- **PyPI**: Python Package Index with thousands of libraries
+- **PyCon**: Annual Python conference
+- **Python Software Foundation**: Manages Python development
+- **Stack Overflow**: Active Python community for Q&A
+
+## Conclusion
+
+Python's simplicity, versatility, and powerful ecosystem make it one of the most popular programming languages today. Whether you're interested in web development, data science, automation, or machine learning, Python provides the tools and libraries you need to succeed.

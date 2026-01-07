@@ -1,79 +1,79 @@
 # Core LangChain & LangGraph
-langchain>=0.2.0
-langgraph>=0.1.0
-langchain-core>=0.2.0
-langchain-community>=0.2.0
-langchain-openai>=0.1.0
+langchain
+langgraph
+langchain-core
+langchain-community
+langchain-openai
 langchain-anthropic
 langchain-groq
 
 # LLM Providers
-openai>=1.0.0
-anthropic>=0.25.0
-groq>=0.5.0
-cohere>=5.0.0
+openai
+anthropic
+groq
+cohere
 
 # Embeddings & Vector Search
-sentence-transformers>=2.2.0
-faiss-cpu>=1.7.0
-chromadb>=0.4.0
-pinecone-client>=3.0.0
+sentence-transformers
+faiss-cpu
+chromadb
+pinecone-client
 
 # BM25 Search
-rank-bm25>=0.2.0
+rank-bm25
 
 # Document Processing
-pypdf>=4.0.0
-PyPDF2>=3.0.0
-unstructured>=0.12.0
-beautifulsoup4>=4.12.0
+pypdf
+PyPDF2
+unstructured
+beautifulsoup4
 
 # Web & API Framework
-fastapi>=0.110.0
-uvicorn>=0.27.0
-httpx>=0.27.0
-python-multipart>=0.0.9
+fastapi
+uvicorn
+httpx
+python-multipart
 
 # Configuration & Settings
-pydantic>=2.0.0
-pydantic-settings>=2.0.0
-python-dotenv>=1.0.0
+pydantic
+pydantic-settings
+python-dotenv
 
 # Database
-sqlalchemy>=2.0.0
-aiosqlite>=0.19.0
-alembic>=1.13.0
+sqlalchemy
+aiosqlite
+alembic
 
 # Caching
-redis>=5.0.0
+redis
 
 # Authentication & Security
-PyJWT>=2.8.0
-passlib>=1.7.0
-bcrypt>=4.1.0
+PyJWT
+passlib
+bcrypt
 
 # Token Counting
-tiktoken>=0.6.0
+tiktoken
 
 # Observability
-langsmith>=0.1.0
+langsmith
 
 # Testing
-pytest>=8.0.0
-pytest-asyncio>=0.23.0
-pytest-cov>=4.0.0
-httpx>=0.27.0
+pytest
+pytest-asyncio
+pytest-cov
+httpx
 
 # Development
-black>=24.0.0
-isort>=5.0.0
-mypy>=1.0.0
-ruff>=0.3.0
+black
+isort
+mypy
+ruff
 
 # Utilities
-numpy>=1.24.0
-pandas>=2.0.0
-tqdm>=4.0.0
+numpy
+pandas
+tqdm
 grandalf
 sentence-transformers
 rank_bm25
