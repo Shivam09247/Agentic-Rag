@@ -42,35 +42,69 @@ START → Query Rewriter → Needs More Info?
           NO (Max retries?) → Retry from Start
 ```
 
-## 📁 Project Structure
+## 📁 Project Structure (Production-Ready)
 
 ```
 AGENTIC-RAG/
 │
 ├── src/                            # Application source code
 │   │
-│   ├── agents/                     # All agent logic
+│   ├── core/                       # ⭐ Core utilities (centralized)
+│   │   ├── __init__.py            # Clean exports
+│   │   ├── config.py              # Settings & environment vars
+│   │   ├── logger.py              # Logging utilities
+│   │   ├── constants.py           # Application constants
+│   │   ├── exceptions.py          # Custom exceptions
+│   │   └── message_filter.py      # Message filtering for context
+│   │
+│   ├── agents/                     # AI Agents (LLM-powered)
 │   │   ├── __init__.py
-│   │   ├── query_rewriter.py       # Steps 1–2
-│   │   ├── needs_more_info.py      # Steps 3–4
-│   │   ├── source_selector.py      # Steps 5–6
-│   │   ├── answer_generator.py     # Steps 8–9
-│   │   └── answer_evaluator.py     # Steps 10–12
+│   │   ├── query_rewriter.py       # Steps 1–2: Query optimization
+│   │   ├── needs_more_info.py      # Steps 3–4: Retrieval decision
+│   │   ├── source_selector.py      # Steps 5–6: Source routing
+│   │   ├── answer_generator.py     # Steps 8–9: Response generation
+│   │   └── answer_evaluator.py     # Steps 10–12: Quality evaluation
+│   │
+│   ├── schemas/                    # ⭐ Pydantic models (reorganized)
+│   │   ├── __init__.py            # Clean exports
+│   │   ├── request.py             # Request models (QueryRequest, etc.)
+│   │   ├── response.py            # Response models (QueryResponse, etc.)
+│   │   ├── agent_io.py            # Agent I/O schemas
+│   │   └── api.py                 # Backward compatibility
+│   │
+│   ├── api/                        # FastAPI REST API
+│   │   ├── __init__.py
+│   │   ├── router.py              # Main API router
+│   │   ├── dependencies.py        # Shared dependencies
+│   │   └── v1/                    # API v1 endpoints
+│   │       ├── __init__.py
+│   │       ├── router.py
+│   │       ├── query.py           # Query endpoints
+│   │       ├── session.py         # Session management
+│   │       └── documents.py       # Document operations
 │   │
 │   ├── graph/                      # LangGraph workflow
 │   │   ├── __init__.py
-│   │   ├── state.py                # Shared graph state
-│   │   └── rag_graph.py            # Agentic RAG graph
+│   │   ├── state.py               # State schema
+│   │   └── rag_graph.py           # Agentic RAG workflow
+│   │
+│   ├── memory/                     # Session persistence
+│   │   ├── __init__.py
+│   │   └── database.py            # MongoDB checkpointer
+│   │
+│   ├── session/                    # Session management
+│   │   ├── __init__.py
+│   │   └── manager.py             # Session lifecycle
 │   │
 │   ├── retrieval/                  # Knowledge access layer
 │   │   ├── __init__.py
-│   │   ├── vector_store.py         # FAISS / Chroma / Pinecone
-│   │   ├── tools.py                # External tools & APIs
-│   │   └── web_search.py           # Internet search
+│   │   ├── vector_store.py        # Chroma/FAISS/Pinecone
+│   │   ├── tools.py               # External tools & APIs
+│   │   └── web_search.py          # Internet search
 │   │
-│   ├── llms/                       # LLM configuration
+│   ├── llms/                       # LLM wrappers
 │   │   ├── __init__.py
-│   │   └── model.py                # ChatOpenAI, etc.
+│   │   └── model.py               # Groq/OpenAI LLMs
 │   │
 │   ├── prompts/                    # Prompt templates
 │   │   ├── __init__.py
@@ -78,31 +112,42 @@ AGENTIC-RAG/
 │   │   ├── retrieval_prompt.py
 │   │   └── evaluation_prompt.py
 │   │
-│   ├── config/                     # App configuration
-│   │   ├── __init__.py
-│   │   ├── settings.py             # Env vars, model names
-│   │   └── constants.py
+│   ├── app.py                      # FastAPI application factory
 │   │
-│   └── utils/                      # Shared utilities
-│       ├── __init__.py
-│       └── logging.py
+│   ├── config/                     # ⚠️ DEPRECATED (backward compatibility)
+│   └── utils/                      # ⚠️ DEPRECATED (backward compatibility)
 │
-├── data/                           # Local data
+├── data/                           # Local data storage
 │   ├── documents/                  # Source documents
-│   └── embeddings/                 # Vector embeddings
+│   ├── chroma/                     # Vector database
+│   └── embeddings/                 # Embeddings cache
 │
-├── tests/                          # Tests
+├── logs/                           # Application logs
+│   └── agentic_rag_*.log          # Timestamped log files
+│
+├── tests/                          # Test suite
+│   ├── __init__.py
+│   ├── conftest.py
 │   ├── test_agents.py
 │   └── test_graph.py
 │
-├── main.py                         # Entry point
+├── main.py                         # Server entry point
 ├── README.md
 ├── requirements.txt
 ├── pyproject.toml
-├── .env.example
+├── .env.example                    # Environment template
 ├── .gitignore
 └── LICENSE
 ```
+
+### 🎯 Key Structural Improvements
+
+- ✅ **`src/core/`** - Centralized configuration, logging, constants, and utilities
+- ✅ **`src/schemas/`** - Separated into `request.py`, `response.py`, `agent_io.py`
+- ✅ **`src/api/`** - Full REST API with FastAPI
+- ✅ **`src/memory/`** - MongoDB session persistence
+- ✅ **`src/session/`** - Session management utilities
+- ✅ **Production-ready** - Follows industry best practices
 
 ## 🚀 Quick Start
 
@@ -167,27 +212,80 @@ AGENTIC-RAG/
 
 ### Usage
 
-#### Interactive Mode
+#### Start the API Server
 
 ```bash
 python main.py
 ```
 
-This starts an interactive session where you can:
-- Ask questions continuously
-- Type `index` to index documents from `data/documents/`
-- Type `quit` to exit
+The server will start and display:
+```
+============================================================
+🚀 Starting Agentic RAG API Server...
+============================================================
+📍 Server will bind to: 127.0.0.1:8000
 
-#### Single Query Mode
+🌐 Access the API at:
+   • http://localhost:8000/
+   • http://127.0.0.1:8000/
 
-```bash
-python main.py --query "What is machine learning?"
+📚 API Documentation:
+   • Swagger UI: http://localhost:8000/docs
+   • ReDoc:      http://localhost:8000/redoc
+
+💚 Health Check: http://localhost:8000/health
+============================================================
 ```
 
-#### Index Documents First
+### Method 1: API Upload (Recommended)
+
+Upload documents via the API:
 
 ```bash
-python main.py --index --query "Tell me about the documents"
+# Upload a document
+curl -X POST http://localhost:8000/api/v1/documents/upload \
+  -F "file=@mydocument.txt"
+
+# Or use the Swagger UI at http://localhost:8000/docs
+```
+
+### Method 2: Direct File Placement
+
+1. Place your text documents in `data/documents/`
+2. The system will automatically index them on first query
+
+**Incremental Indexing** (Production Feature):
+- System tracks which files are already indexed
+- Only processes NEW or MODIFIED documents
+- Much faster when adding documents incrementally
+- Metadata stored in `data/chroma/indexed_files.json`
+
+**Supported Formats:**
+- `.txt` - Plain text files
+- More formats can be added (PDF, DOCX, etc.
+curl -X POST http://localhost:8000/api/v1/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What is machine learning?"}'
+
+# Create a new session
+curl -X POST http://localhost:8000/api/v1/session
+
+# Upload a document
+curl -X POST http://localhost:8000/api/v1/documents/upload \
+  -F "file=@document.txt"
+```
+
+**Python Client Example:**
+
+```python
+import requests
+
+# Query the system
+response = requests.post(
+    "http://localhost:8000/api/v1/query",
+    json={"query": "Explain Python decorators"}
+)
+print(response.json())
 ```
 
 ## 📚 Adding Your Documents
@@ -262,18 +360,8 @@ Run tests:
 pytest tests/
 ```
 
-Run with coverage:
-
-```bash
-pytest tests/ --cov=src --cov-report=html
-```
-
-## 🎯 Key Features
-
-### ✨ Agentic Behaviors
-
-- **Intelligent Query Rewriting**: Automatically improves queries for better retrieval
-- **Conditional Routing**: Different paths based on query analysis
+- **Self-Evaluation**: Quality assessment and automatic retry mechanism
+- **Adaptive Source Selection**: Chooses best information source dynamically
 
 ### 🔍 Multiple Information Sources
 
@@ -281,9 +369,30 @@ pytest tests/ --cov=src --cov-report=html
 - **External Tools/APIs**: Calculator, datetime, and custom tools
 - **Web Search**: Real-time internet information (Tavily/SerpAPI)
 
+### 🌐 Production-Ready API
+
+- **FastAPI Framework**: Modern, high-performance REST API
+- **OpenAPI/Swagger**: Auto-generated interactive documentation
+- **Session Management**: MongoDB-based conversation persistence
+- **Health Checks**: Built-in monitoring endpoints
+- **CORS Support**: Configurable cross-origin access
+- **Versioned API**: `/api/v1/` structure for future expansion
+
 ### 📊 Production Features
 
 - **FREE to Use**: Uses Groq API (free) + local embeddings (no OpenAI costs)
+- **Incremental Indexing**: Only processes new/modified documents
+- **Session Persistence**: MongoDB checkpointer for conversation history
+- **Timestamped Logging**: Each run creates separate log file in `logs/`
+- **Centralized Configuration**: All settings in `src/core/`
+- **Clean Architecture**: Separation of concerns with clear module boundaries
+- **Structured Logging**: Comprehensive logging for debugging
+- **Configurable Parameters**: Easy customization via environment variables
+- **Error Handling**: Graceful degradation and informative errors
+- **Modular Design**: Easy to extend and maintain
+- **Type Hints**: Full type annotations throughout
+- **Comprehensive Documentation**: Docstrings in every module
+- **Production Structure**: Follows industry best practicesmbeddings (no OpenAI costs)
 - **Incremental Indexing**: Only processes new/modified documents
 - **Timestamped Logging**: Each run creates separate log file in `logs/`
 - **Absolute Imports**: Clean, direct imports (no relative imports)
@@ -344,20 +453,41 @@ Query → Rewrite → Need Info?
 python main.py -q "What is 2 + 2?"
 # Ou� Technologies Used
 
-- **LangChain**: LLM orchestration framework
-- **LangGraph**: State machine for agent workflows  
-- **Groq**: Fast, free LLM API (Llama 3.3 70B)
-- **ChromaDB**: Vector database for embeddings
-- **HuggingFace**: Free local embeddings (all-MiniLM-L6-v2)
-- **Pydantic**: Configuration and validation
-- **Python-dotenv**: Environment management
-- **Pytest**: Testing framework
-
-## ✅ Production Checklist
-
+**Core Functionality:**
 - [x] Complete 12-step agentic workflow
 - [x] 5 specialized agents implemented
 - [x] 3 retrieval sources (vector DB, tools, web)
+- [x] LangGraph state management with conditional routing
+- [x] FREE to use (Groq + local embeddings)
+- [x] Incremental document indexing
+
+**API & Architecture:**
+- [x] FastAPI REST API with versioning
+- [x] OpenAPI/Swagger documentation
+- [x] Session management (MongoDB)
+- [x] Health check endpoints
+- [x] Production-ready structure (`src/core/`)
+- [x] Separated schemas (request/response/agent_io)
+
+**Code Quality:**
+- [x] Timestamped logging for each run
+- [x] Centralized configuration
+- [x] Absolute imports (no relative imports)
+- [x] Comprehensive error handling
+- [x] Environment-based configuration
+- [x] Full type hints and docstrings
+- [x] Custom exception classes
+- [x] Message filtering utilities
+
+**Developer Experience:**
+- [x] Test suite included
+- [x] Sample documents provided
+- [x] `.env.example` template
+- [x] Comprehensive README
+- [x] Clear file structure
+- [ ] Rate limiting and authentication
+- [ ] Containerization (Docker/Kubernetes)
+- [ ] CI/CD pipelineector DB, tools, web)
 - [x] LangGraph state management with conditional routing
 - [x] FREE to use (Groq + local embeddings)
 - [x] Incremental document indexing
