@@ -2,9 +2,9 @@
 
 from src.llms.model import get_agent_llm
 from src.prompts.retrieval_prompt import NEEDS_MORE_INFO_PROMPT
-from src.utils.logging import setup_logger
+from src.core import get_logger
 
-logger = setup_logger(__name__)
+logger = get_logger(__name__)
 
 
 def check_needs_more_info(query: str) -> bool:

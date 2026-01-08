@@ -6,15 +6,14 @@ from pathlib import Path
 from typing import Any
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_core.documents import Document
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
-from src.config.settings import settings
-from src.utils.logging import setup_logger
+from src.core import settings, get_logger
 
-logger = setup_logger(__name__)
+logger = get_logger(__name__)
 
 
 class VectorStoreManager:

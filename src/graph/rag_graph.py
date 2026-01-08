@@ -1,27 +1,30 @@
 """LangGraph workflow for Agentic RAG."""
 
-from typing import Literal
+from typing import Literal, Optional, Dict, Any
 
 from langgraph.graph import END, START, StateGraph
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 from src.agents.answer_evaluator import evaluate_answer
 from src.agents.answer_generator import generate_answer
 from src.agents.needs_more_info import check_needs_more_info
 from src.agents.query_rewriter import rewrite_query
 from src.agents.source_selector import select_source
-from src.config.constants import (
+from src.core import (
+    settings,
+    get_logger,
     SOURCE_TOOLS_API,
     SOURCE_VECTOR_DB,
     SOURCE_WEB_SEARCH,
 )
-from src.config.settings import settings
 from src.retrieval.tools import get_tools_manager
 from src.retrieval.vector_store import get_vector_store_manager
 from src.retrieval.web_search import get_web_search_manager
-from src.utils.logging import setup_logger
 from src.graph.state import AgenticRAGState
+from src.memory.database import get_database_service
+from src.core.message_filter import filter_messages_sliding_window, get_conversation_summary
 
-logger = setup_logger(__name__)
+logger = get_logger(__name__)
 
 
 # Node Functions
@@ -31,9 +34,12 @@ def query_rewriter_node(state: AgenticRAGState) -> dict:
     
     rewritten = rewrite_query(state["original_query"])
     
+    # Add system message about query rewriting
+    system_msg = SystemMessage(content=f"Query rewritten to: {rewritten}")
+    
     return {
         "rewritten_query": rewritten,
-        "messages": [f"Rewritten query: {rewritten}"],
+        "messages": [system_msg],
     }
 
 
@@ -100,17 +106,31 @@ def retriever_node(state: AgenticRAGState) -> dict:
 
 
 def answer_generator_node(state: AgenticRAGState) -> dict:
-    """Step 8-9: Generate answer."""
+    """Step 8-9: Generate answer with sliding window context management."""
     logger.info("=== Answer Generator Node ===")
     
     query = state["rewritten_query"]
     context = state.get("retrieved_context")
     
+    # Get full message history from state (MongoDB stores all)
+    all_messages = state.get("messages", [])
+    logger.info(f"Full conversation: {get_conversation_summary(all_messages)}")
+    
+    # Apply sliding window: Only use recent messages for LLM context
+    # MongoDB keeps all messages, but we only send last N to the model
+    filtered_messages = filter_messages_sliding_window(all_messages)
+    logger.info(f"Filtered for LLM: {len(filtered_messages)} messages")
+    
+    # TODO: Use filtered_messages when calling LLM with conversation history
+    # For now, generate_answer doesn't use message history yet
     answer = generate_answer(query, context)
+    
+    # Add AI response message (will be stored in MongoDB)
+    ai_msg = AIMessage(content=answer)
     
     return {
         "answer": answer,
-        "messages": [f"Generated answer: {answer[:100]}..."],
+        "messages": [ai_msg],  # MongoDB stores this with all previous messages
     }
 
 
@@ -168,12 +188,15 @@ def route_after_evaluation(
 
 
 # Build the Graph
-def create_agentic_rag_graph() -> StateGraph:
+def create_agentic_rag_graph(checkpointer=None) -> StateGraph:
     """
     Create the Agentic RAG workflow graph.
     
+    Args:
+        checkpointer: Optional checkpointer for persistence (uses MongoDB by default)
+    
     Returns:
-        Compiled LangGraph workflow
+        Compiled LangGraph workflow with memory
     """
     logger.info("Creating Agentic RAG graph...")
     
@@ -219,57 +242,56 @@ def create_agentic_rag_graph() -> StateGraph:
         },
     )
     
-    # Compile
-    app = workflow.compile()
+    # MongoDB checkpointer for persistent session memory (stores ALL messages)
+    # Uses DatabaseService singleton pattern for connection management
+    if checkpointer is None:
+        db_service = get_database_service()  # Singleton instance
+        checkpointer = db_service.get_checkpointer()  # Get MongoDB checkpointer
+        logger.info("Using MongoDB checkpointer for session persistence")
     
-    logger.info("Agentic RAG graph created successfully")
+    # Compile graph with checkpointer for memory persistence
+    # This enables: thread-based conversations, state persistence, message history
+    app = workflow.compile(checkpointer=checkpointer)
+    
+    logger.info("Agentic RAG graph created successfully with memory persistence")
     
     return app
 
 
-def run_agentic_rag(query: str) -> dict:
+def run_agentic_rag(query: str, thread_id: str) -> Dict[str, Any]:
     """
-    Run the Agentic RAG workflow on a query.
+    Run the agentic RAG workflow for a given query.
     
     Args:
-        query: User query
+        query: User query to process
+        thread_id: Thread ID for session persistence
         
     Returns:
-        Final state with answer
+        Dictionary containing the answer and metadata
     """
-    logger.info(f"Running Agentic RAG for query: {query}")
-    
-    # Create graph
-    app = create_agentic_rag_graph()
+    # Create graph with MongoDB checkpointer
+    graph = create_agentic_rag_graph()
     
     # Initial state
-    initial_state: AgenticRAGState = {
+    initial_state = {
         "original_query": query,
         "rewritten_query": "",
         "needs_retrieval": False,
-        "selected_source": "",
+        "selected_source": None,
         "retrieved_context": "",
         "answer": "",
         "answer_is_relevant": False,
         "iteration": 0,
-        "max_iterations": settings.max_iterations,
-        "error": None,
-        "messages": [],
+        "messages": [HumanMessage(content=query)],
     }
     
-    # Run workflow
-    try:
-        final_state = app.invoke(initial_state)
-        
-        logger.info("Workflow completed successfully")
-        logger.info(f"Final answer: {final_state.get('answer', 'No answer generated')}")
-        
-        return final_state
-        
-    except Exception as e:
-        logger.error(f"Workflow error: {e}")
-        return {
-            **initial_state,
-            "error": str(e),
-            "answer": f"Error: {str(e)}",
-        }
+    # Configuration with thread_id for session persistence
+    config = {"configurable": {"thread_id": thread_id}}
+    
+    # Run graph
+    result = graph.invoke(initial_state, config)
+    
+    logger.info(f"RAG workflow completed for thread {thread_id[:16]}...")
+    
+    return result
+

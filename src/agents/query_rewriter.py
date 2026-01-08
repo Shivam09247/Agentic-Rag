@@ -2,9 +2,9 @@
 
 from src.llms.model import get_agent_llm
 from src.prompts.rewrite_prompt import QUERY_REWRITE_PROMPT
-from src.utils.logging import setup_logger
+from src.core import get_logger
 
-logger = setup_logger(__name__)
+logger = get_logger(__name__)
 
 def rewrite_query(query: str) -> str:
     """

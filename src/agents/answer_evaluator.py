@@ -2,9 +2,9 @@
 
 from src.llms.model import get_agent_llm
 from src.prompts.evaluation_prompt import ANSWER_EVALUATION_PROMPT
-from src.utils.logging import setup_logger
+from src.core import get_logger
 
-logger = setup_logger(__name__)
+logger = get_logger(__name__)
 
 
 def evaluate_answer(query: str, answer: str, context: str | None = None) -> bool:

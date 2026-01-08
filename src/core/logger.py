@@ -5,10 +5,10 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from src.config.settings import settings
+from src.core.config import settings
 
 
-def setup_logger(name: str) -> logging.Logger:
+def get_logger(name: str) -> logging.Logger:
     """
     Set up a logger with consistent formatting.
     
@@ -49,7 +49,6 @@ def setup_logger(name: str) -> logging.Logger:
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
         
-        # Prevent propagation to avoid duplicate logs
         logger.propagate = False
     
     return logger

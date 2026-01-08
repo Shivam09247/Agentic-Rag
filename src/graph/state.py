@@ -2,6 +2,7 @@
 
 from typing import Annotated, TypedDict
 from langgraph.graph.message import add_messages
+from langchain_core.messages import BaseMessage
 
 class AgenticRAGState(TypedDict):
     """
@@ -13,6 +14,7 @@ class AgenticRAGState(TypedDict):
     - Selected source and retrieved context
     - Generated answer and evaluation results
     - Iteration tracking for retry logic
+    - Conversation messages for multi-turn interactions
     """
     original_query: str
     rewritten_query: str
@@ -24,4 +26,5 @@ class AgenticRAGState(TypedDict):
     iteration: int
     max_iterations: int
     error: str | None
-    messages: Annotated[list, add_messages]
+    # Messages list with add_messages reducer for conversation memory
+    messages: Annotated[list[BaseMessage], add_messages]

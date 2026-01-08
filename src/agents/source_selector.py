@@ -1,11 +1,10 @@
 """Source selection agent (Steps 5-6)."""
 
-from src.config.constants import SOURCE_TOOLS_API, SOURCE_VECTOR_DB, SOURCE_WEB_SEARCH
+from src.core import SOURCE_TOOLS_API, SOURCE_VECTOR_DB, SOURCE_WEB_SEARCH, get_logger
 from src.llms.model import get_agent_llm
 from src.prompts.retrieval_prompt import SOURCE_SELECTION_PROMPT
-from src.utils.logging import setup_logger
 
-logger = setup_logger(__name__)
+logger = get_logger(__name__)
 
 
 def select_source(query: str) -> str:

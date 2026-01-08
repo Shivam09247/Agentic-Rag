@@ -1,10 +1,9 @@
 """LLM model configuration and initialization."""
 
 from langchain_groq import ChatGroq
-from src.config.settings import settings
-from src.utils.logging import setup_logger
+from src.core import settings, get_logger
 
-logger = setup_logger(__name__)
+logger = get_logger(__name__)
 
 def get_llm(temperature: float | None = None, model: str | None = None) -> ChatGroq:
     """

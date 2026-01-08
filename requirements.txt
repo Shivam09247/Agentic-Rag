@@ -6,6 +6,14 @@ langchain-community
 langchain-openai
 langchain-anthropic
 langchain-groq
+langgraph-checkpoint-mongo
+
+# FastAPI & Web Server
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+pydantic-settings
 
 # LLM Providers
 openai
@@ -43,6 +51,8 @@ python-dotenv
 sqlalchemy
 aiosqlite
 alembic
+pymongo
+motor  # Async MongoDB driver
 
 # Caching
 redis

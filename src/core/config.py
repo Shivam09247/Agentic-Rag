@@ -40,6 +40,41 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = "INFO"
     
+    # MongoDB Configuration (for session persistence)
+    mongodb_uri: str = "mongodb://localhost:27017/"  # Deprecated: use individual settings below
+    mongodb_host: str = "localhost"
+    mongodb_port: int = 27017
+    mongodb_username: str = ""
+    mongodb_password: str = ""
+    mongodb_db: str = "agentic_rag"
+    mongodb_collection: str = "checkpoints"
+    
+    # Convenience properties for backward compatibility
+    @property
+    def MONGODB_HOST(self) -> str:
+        return self.mongodb_host
+    
+    @property
+    def MONGODB_PORT(self) -> int:
+        return self.mongodb_port
+    
+    @property
+    def MONGODB_USERNAME(self) -> str:
+        return self.mongodb_username
+    
+    @property
+    def MONGODB_PASSWORD(self) -> str:
+        return self.mongodb_password
+    
+    @property
+    def MONGODB_DB(self) -> str:
+        return self.mongodb_db
+    
+    # Session Configuration
+    session_ttl_hours: int = 24  # Session time-to-live in hours
+    max_session_messages: int = 50  # Maximum messages to keep in session
+    max_context_messages: int = 10  # Maximum messages sent to LLM (sliding window)
+    
     # Paths
     base_dir: Path = Path(__file__).parent.parent.parent
     data_dir: Path = base_dir / "data"

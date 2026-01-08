@@ -5,9 +5,9 @@ from src.prompts.evaluation_prompt import (
     ANSWER_GENERATION_NO_CONTEXT_PROMPT,
     ANSWER_GENERATION_PROMPT,
 )
-from src.utils.logging import setup_logger
+from src.core import get_logger
 
-logger = setup_logger(__name__)
+logger = get_logger(__name__)
 
 
 def generate_answer(query: str, context: str | None = None) -> str:

@@ -18,8 +18,5 @@ EDGE_ANSWER_NOT_RELEVANT: Final[str] = "not_relevant"
 
 # Source Types
 SOURCE_VECTOR_DB: Final[str] = "vector_database"
-SOURCE_TOOLS_API: Final[str] = "tools_api"
 SOURCE_WEB_SEARCH: Final[str] = "web_search"
-
-# Answer Quality Scores
-MIN_RELEVANCE_SCORE: Final[float] = 0.7
+SOURCE_TOOLS_API: Final[str] = "tools_api"
